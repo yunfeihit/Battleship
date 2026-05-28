@@ -67,6 +67,7 @@ class GameBoard {
         })
     }
 
+    getRamdomEmptyCoord() {}
 }
 
 
