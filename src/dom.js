@@ -57,6 +57,12 @@ function bindCreateUser(handler) {
     })
 }
 
+function bindUserPlaceShip(handler) {
+    let startPosition;
+    let length;
+    let direction = 'x';
+    handler(startPosition, length, direction);
+}
 
 
 export{
@@ -65,5 +71,6 @@ export{
     renderUserWin,
     renderRobotWin, 
     bindRobotGameBoardClick,
-    bindCreateUser
+    bindCreateUser,
+    bindUserPlaceShip
 };

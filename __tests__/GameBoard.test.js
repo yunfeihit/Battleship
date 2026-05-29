@@ -5,6 +5,10 @@ describe("test behavior of class GameBoard", () => {
     const newGameBoard = new GameBoard();
     newGameBoard.placeShip([3, 4], 3);
 
+    test("gameboard's cell will know it's own coord", () => {
+        expect(newGameBoard.board[5][6].coord).toEqual([5, 6])
+    })
+
     test("place ship and the GameBoard know it", () => {
 
         expect(newGameBoard.board[3][4].ship).not.toBe(null);
@@ -33,6 +37,35 @@ describe("test behavior of class GameBoard", () => {
         expect(newGameBoard.board[3][4].ship.isSunk).toBe(true);
         expect(newGameBoard.isGameOver()).toBe(true);
     })
+
+    test("return a ramdom unhit coord", () => {
+        expect([
+            [3, 4],
+            [4, 4],
+            [5, 4]
+        ].includes[newGameBoard.getRamdomUnHitCoord()]).not.toBe(true);
+        expect([
+            [3, 4],
+            [4, 4],
+            [5, 4]
+        ].includes[newGameBoard.getRamdomUnHitCoord()]).not.toBe(true);
+        expect([
+            [3, 4],
+            [4, 4],
+            [5, 4]
+        ].includes[newGameBoard.getRamdomUnHitCoord()]).not.toBe(true);
+        expect([
+            [3, 4],
+            [4, 4],
+            [5, 4]
+        ].includes[newGameBoard.getRamdomUnHitCoord()]).not.toBe(true);
+        expect([
+            [3, 4],
+            [4, 4],
+            [5, 4]
+        ].includes[newGameBoard.getRamdomUnHitCoord()]).not.toBe(true);
+    })
+
 
 })
 

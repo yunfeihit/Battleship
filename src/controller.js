@@ -7,8 +7,10 @@ import {
     renderUserWin,
     renderRobotWin, 
     bindRobotGameBoardClick,
-    bindCreateUser
-} from "./dom.js";
+    bindCreateUser,
+    bindUserPlaceShip
+    }
+from "./dom.js";
 
 function createUser(name) {
     user = createPlayer(name);
@@ -19,19 +21,31 @@ function createUser(name) {
 }
 
 function handleUserAttack(coord) {
-    robot.gameBoard.receiveAttack(coord);
+    const successAttack = robot.gameBoard.receiveAttack(coord);
+    //Edge Case: if not hit on a Unhit cell, do nothing but return
+    if(!successAttack) return;
+
     renderRobotGameBoard(robot.gameBoard);
     if(robot.gameBoard.isGameOver()) {
-        renderRobotWin();
+        renderUserWin();
     }
 
     //after user make a hit, automatically let robot make a hit
-    user.gameBoard.receiveAttack(randomCoord);
+    const ramdomUnhitCoord = user.gameBoard.getRandomUnhitCoord()
+    user.gameBoard.receiveAttack(ramdomUnhitCoord);
     renderUserGameBoard(user.gameBoard);
     if(user.gameBoard.isGameOver()) {
-        renderUserWin();
+        renderRobotWin();
     }
 }
+
+function handleUserPlaceShip(startPosition, length, direction) {
+    //user place a ship in robot's gameboard manually
+    robot.gameBoard.placeShip(startPosition, length, direction);
+    //then robot place a ship in user's gameboard automatically
+    
+}
+
 
 //MAIN FUNCTION
 let user;
@@ -40,7 +54,7 @@ let robot = createPlayer('Robot');
 function startGame() {
 
     bindCreateUser(createUser);
-
+    bindUserPlaceShip(handleUserPlaceShip);
     bindRobotGameBoardClick(handleUserAttack);
 
 }
