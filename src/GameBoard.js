@@ -4,6 +4,7 @@ class Cell {
     constructor() {
         this.ship = null;
         this.isHit = false;
+        //'coord' to recode the [x, y] coordinate
         this.coord = null;
     }
 }
@@ -12,7 +13,7 @@ class GameBoard {
     constructor(size = 10) {
         this.size = size;
 
-        //create the board:
+        //create the board, a 2D array store 'Cell' object
         this.board = [];
         for(let i = 0; i < size; i++) {
             this.board.push([]);
@@ -29,8 +30,25 @@ class GameBoard {
     //if a coord is taken by ship and hit, show 'H'
     //if there is nothing, show -
     log() {
+
+        //Inner Function:
+        const reverse2DArray = (array) => {
+            const reversedArray = [];
+            for(let i = 0; i < array[0].length; i++) {
+                reversedArray.push([]);
+            };
+            for(let i = 0; i < array.length; i++) {
+                for(let j = 0; j < array[0].length; j++) {
+                    reversedArray[j][i] = array[i][j];
+                }
+            }
+            return reversedArray;
+        }
+
+        const reversedBoard = reverse2DArray(this.board);
+
         //change cell to cooresponding value
-        for(const row of this.board) {
+        for(const row of reversedBoard) {
             console.log(
                 row.map(cell => {
                     if(cell.ship === null && cell.isHit === false) {
@@ -40,14 +58,13 @@ class GameBoard {
                     } else if(cell.ship !== null && cell.isHit === true) {
                         return 'H';
                     } else if(cell.ship !== null && cell.isHit === false) {
-                        return 'S'
+                      return 'S'
                     }  
                 }).join(' ')
             )
 
         }
     }
-
 
     placeShip(startPosition, length, direction = 'x') {
         const newShip = new Ship(startPosition, length, direction);
@@ -67,6 +84,7 @@ class GameBoard {
 
         coordsTaken.forEach(item => {
             const [x, y] = item;
+            //all taken cells point to the new ship object
             this.board[x][y].ship = newShip;
         });
 
@@ -85,8 +103,8 @@ class GameBoard {
         if(hitCell.ship !== null)  {
             const hitShip = hitCell.ship;
             hitShip.getHit();
-            return true;
         }
+        return true;
     }
 
     isGameOver() {
@@ -108,7 +126,7 @@ class GameBoard {
     };
 
     placeShipRandom(length) {
-        //place ship on the board ramdomlly, which will take enough room(avoid the cell already taken)
+        //place ship on the board random, which will take enough room(avoid the cell already taken) and stay inside the gameboard
         //it not easy!
         
         //Inner Function
@@ -137,8 +155,9 @@ class GameBoard {
                     })                        
                 ) {
                 return false
-            //test if all these cells is taken
+
             } else if(
+                //test if all these cells is taken
                 alltakenCoords.some(coord => {
                     const [x, y] = coord;
                     return this.board[x][y].ship !== null
@@ -164,9 +183,9 @@ class GameBoard {
             let testStartPosition = allUnhitCellsArray.splice(randomIndex, 1)[0].coord;
 
             if(isThisPlaceWork(testStartPosition, length, testDirection)) {
-                this.placeShip(testStartPosition, length, testDirection)
+                return this.placeShip(testStartPosition, length, testDirection)
             } else {
-                placeShipInX()
+                return placeShipInX()
             }
         }
 
@@ -180,9 +199,9 @@ class GameBoard {
             let testStartPosition = allUnhitCellsArray.splice(randomIndex, 1)[0].coord
 
             if(isThisPlaceWork(testStartPosition, length, testDirection)) {
-                this.placeShip(testStartPosition, length, testDirection)
+                return this.placeShip(testStartPosition, length, testDirection)
             } else {
-                placeShipInY()
+                return placeShipInY()
             }
         }                       
         

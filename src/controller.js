@@ -21,10 +21,12 @@ function createUser(name) {
 }
 
 function handleUserAttack(coord) {
+    //make a attack
     const successAttack = robot.gameBoard.receiveAttack(coord);
     //Edge Case: if not hit on a Unhit cell, do nothing but return
     if(!successAttack) return;
 
+    //re render the robot gameboard
     renderRobotGameBoard(robot.gameBoard);
     if(robot.gameBoard.isGameOver()) {
         renderUserWin();
@@ -32,6 +34,10 @@ function handleUserAttack(coord) {
 
     //after user make a hit, automatically let robot make a hit
     const ramdomUnhitCoord = user.gameBoard.getRandomUnhitCoord()
+
+    //Edge Case: if there is no unhit cell in user's gameboard
+    if(ramdomUnhitCoord === null) return;
+
     user.gameBoard.receiveAttack(ramdomUnhitCoord);
     renderUserGameBoard(user.gameBoard);
     if(user.gameBoard.isGameOver()) {

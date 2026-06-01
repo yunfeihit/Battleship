@@ -2,17 +2,18 @@
 class Ship {
     //startPosition: [x, y]
     //length: integar
-    //direction: x(axis) or y(axis)
+    //direction(axis): x or y
     constructor(startPosition, length, direction = 'x') {
         this.startPosition = startPosition; 
         this.length = length;
         this.direction = direction;
         this.health = length; //ship can take as many his as its length
-        this.isSunk = false; //not sink when created
+        this.isSunk = false; //not sunk when created
 
         //generate all the coordinations by its' 'length' and 'direction'
         //result: 'this.coords
         const [x, y] = this.startPosition;
+        //recode taken coords 
         this.coords = [];
         this.coords.push(this.startPosition);
         for(let i = 1; i < length; i++) {
