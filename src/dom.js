@@ -2,6 +2,7 @@ const userNameInput = document.querySelector('#user-name-input');
 const inputNameBtn = document.querySelector('#input-name-btn')
 const userGameBoardContainer = document.querySelector('#user-gameboard-container');
 const robotGameBoardContainer = document.querySelector('#robot-gameboard-container');
+const userNameInputDialog = document.querySelector('#user-name-input-dialog');
 
 //Inner Function
 function renderGameBoard(gameBoard, container) {
@@ -81,6 +82,13 @@ function bindUserPlaceShip(handler) {
     handler(startPosition, length, direction);
 }
 
+function showUserNameInputDialog() {
+    userNameInputDialog.showModal();
+}
+
+function closeUserNameInputDialog() {
+    userNameInputDialog.close();
+}
 
 export{
     renderUserGameBoard, 
@@ -89,5 +97,7 @@ export{
     renderRobotWin, 
     bindRobotGameBoardClick,
     bindCreateUser,
-    bindUserPlaceShip
+    bindUserPlaceShip,
+    showUserNameInputDialog,
+    closeUserNameInputDialog
 };

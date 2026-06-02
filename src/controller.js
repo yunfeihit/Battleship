@@ -8,7 +8,9 @@ import {
     renderRobotWin, 
     bindRobotGameBoardClick,
     bindCreateUser,
-    bindUserPlaceShip
+    bindUserPlaceShip,
+    showUserNameInputDialog,
+    closeUserNameInputDialog
     }
 from "./dom.js";
 
@@ -58,6 +60,7 @@ let user;
 let robot = createPlayer('Robot');
 
 function startGame() {
+    showUserNameInputDialog();
 
     bindCreateUser(createUser);
     bindUserPlaceShip(handleUserPlaceShip);
