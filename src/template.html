@@ -7,37 +7,61 @@
     <link rel="icon" href="./imgs/battleship.png">
 </head>
 <body>
+    <header>
+        <p id="title">BATTLE SHIP</p>
 
-    <div id="main-container">
+    </header>
 
-        <header>
-            <p id="title">BATTLE SHIP</p>
+    <main>
 
-        </header>
-
-        <main>
-            <div id="user-gameboard-container"></div>
-            <div id="robot-gameboard-container"></div>
-
-        </main>
-
-        <footer>
-
+        <!-- Dialog: user name input -->
+        <dialog id="user-name-input-dialog">
+            <div id="user-name-input-container">
+                <input type="text" id="user-name-input">
+                <button id="input-name-btn">Input Your Name:</button>
+            </div>
+        </dialog>
 
 
 
-        </footer>
+        <!-- Page-1: place ships-->
+        <section id="page-place-ships" class="page hidden">
+            <div id="place-ships-gameboard-container">
+            </div>
+            <div id="ships-container">
+                <img class='ship' draggable="true" src="./imgs/carrier.svg" alt="carrier" data-length="5">
+                <img class='ship' draggable="true" src="./imgs/destroyer.svg" alt="destroyer" data-length="3">
+                <img class='ship' draggable="true" src="./imgs/patrol.svg" alt="patrol" data-length="2">
+                <img class='ship' draggable="true" src="./imgs/submarine.svg" alt="submarine" data-length="4">
+            </div>
+        </section>
 
 
-    </div>
+        <!-- Page 2: play a battle-->
+        <section id="page-play-battle"  class="page hidden">
+            <div id="indicator-container">
+                <p>Indicator:</p>
+            </div>
+            
+            <div id="gameboards-container">
+                <div id="user-gameboard-container" ></div>
+                <div id="robot-gameboard-container"></div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <footer>
+        <p>made by Tyler Wang</p>
+
+
+
+    </footer>
+
+
     
-    <!-- user name input -->
-    <dialog id="user-name-input-dialog">
-        <div id="user-name-input-container">
-            <input type="text" id="user-name-input">
-            <button id="input-name-btn">Input Your Name:</button>
-        </div>
-    </dialog>
 
 
 

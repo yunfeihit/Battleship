@@ -4,22 +4,31 @@ import {createPlayer} from "./Player.js";
 import {
     renderUserGameBoard, 
     renderRobotGameBoard,
+    renderPlaceShipsGameBoard,
     renderUserWin,
     renderRobotWin, 
     bindRobotGameBoardClick,
     bindCreateUser,
     bindUserPlaceShip,
     showUserNameInputDialog,
-    closeUserNameInputDialog
+    closeUserNameInputDialog,
+    loadPlaceShipsPage,
+    loadPlayBattlePage,
+    bindShipDrag
     }
 from "./dom.js";
 
-function createUser(name) {
-    user = createPlayer(name);
+//workflow: (multiple actions)
+function handleCreateUser(name) {
+    //Edge Case: if 'user' already exist, do not create another user
+    if(user) return;
 
-    //render both gameboard after get user name input
-    renderUserGameBoard(user.gameBoard);
-    renderRobotGameBoard(robot.gameBoard);
+    //create user
+    user = createPlayer(name);
+    closeUserNameInputDialog();
+
+    //load next page:
+    loadPlaceShipsPage(user.gameBoard);
 }
 
 function handleUserAttack(coord) {
@@ -35,12 +44,12 @@ function handleUserAttack(coord) {
     }
 
     //after user make a hit, automatically let robot make a hit
-    const ramdomUnhitCoord = user.gameBoard.getRandomUnhitCoord()
+    const randomUnhitCoord = user.gameBoard.getRandomUnhitCoord()
 
     //Edge Case: if there is no unhit cell in user's gameboard
-    if(ramdomUnhitCoord === null) return;
+    if(randomUnhitCoord === null) return;
 
-    user.gameBoard.receiveAttack(ramdomUnhitCoord);
+    user.gameBoard.receiveAttack(randomUnhitCoord);
     renderUserGameBoard(user.gameBoard);
     if(user.gameBoard.isGameOver()) {
         renderRobotWin();
@@ -48,21 +57,31 @@ function handleUserAttack(coord) {
 }
 
 function handleUserPlaceShip(startPosition, length, direction) {
-    //user place a ship in robot's gameboard manually
-    robot.gameBoard.placeShip(startPosition, length, direction);
-    //then robot place a ship in user's gameboard automatically
-    
+    //user place a ship in user's gameboard manually
+    const success1 = user.gameBoard.placeShip(startPosition, length, direction);
+
+    if(!success1) return;
+
+    //render user's gameboard
+    renderUserGameBoard(user.gameBoard);
+
+    //then robot place a ship in robot's gameboard automatically
+    const success2 = robot.gameBoard.placeShipRandom(length);
+    if(!success2) return;
+
+    renderRobotGameBoard(robot.gameBoard);
 }
 
 
-//MAIN FUNCTION
 let user;
 let robot = createPlayer('Robot');
 
+//MAIN FUNCTION
 function startGame() {
-    showUserNameInputDialog();
 
-    bindCreateUser(createUser);
+    showUserNameInputDialog();
+    bindCreateUser(handleCreateUser);//user is created here
+
     bindUserPlaceShip(handleUserPlaceShip);
     bindRobotGameBoardClick(handleUserAttack);
 

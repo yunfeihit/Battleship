@@ -88,6 +88,7 @@ class GameBoard {
             this.board[x][y].ship = newShip;
         });
 
+        console.log('ship is palced')
         return true;
     }
 

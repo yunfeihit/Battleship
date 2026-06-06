@@ -7,6 +7,8 @@
     padding: 0;
     margin: 0;
     font-family: Helvetica, sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 html,
@@ -14,18 +16,52 @@ body {
     height: 100%;
 }
 
-#main-container {
-    height: 100%;
+.hidden {
+    display: none !important;
+}
+
+/* main structure */
+body {
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
     background-color: black;
+}
+
+header {
+    height: clamp(200px, 20%, 400px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+}
+
+main {
+    flex: 1;
+    min-height: 0;
+    background-color: grey;
+    overflow: hidden;
+}
+
+footer {
+    height: 60px;
+    background: white;
 }
 
 #title {
     font-family: 'Honk', sans-serif;
     color: white;
     font-size: 6rem;
-    text-align: center;
-    padding: 2rem 0;
     border: 1px solid white;
+}
+
+/* Page 2: */
+#page-2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 /* user name input dialog */
@@ -45,3 +81,97 @@ body {
     align-items: center;
 }
 
+/* indicator */
+#indicator-container {
+    height: 48px;
+    width: 400px;
+    background-color: green;
+    padding: 28px 0;
+}
+
+
+/* gameboard container */
+#gameboards-container {
+    height: 400px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid red;
+}
+
+#user-gameboard-container,
+#robot-gameboard-container,
+#place-ships-gameboard-container  
+{
+    height: 300px;
+    aspect-ratio: 1;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+}
+
+/* gameboard cell */
+.gameboard-row {
+    flex: 1;
+    border: 1px dotted blue;
+    display: flex;
+}
+
+.cell {
+    flex: 1;
+    border: 1px dotted pink;
+    position: relative;
+    overflow: visible;
+}
+
+.place-ship-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.empty {
+    background-color: blue;
+}
+
+.ship-placed {
+    background-color: black;
+}
+
+.ship-hit {
+    background-color: red;
+}
+
+.miss-hit {
+    background-color: yellow;
+}
+
+/* Page: place ships */
+#page-place-ships {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+}
+
+#ships-container {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+}
+
+img {
+    flex: 1;
+}
+
+
+
+
+
+
+/* footer */
+footer p {
+    text-align: center;
+}
