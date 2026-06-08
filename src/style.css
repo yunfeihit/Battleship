@@ -65,7 +65,9 @@ footer {
 }
 
 /* user name input dialog */
-#user-name-input-dialog {
+#user-name-input-dialog,
+#user-win-dialog,
+#robot-win-dialog {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -73,6 +75,12 @@ footer {
     border: 1px solid white;
     width: 180px;
     height: 40px;
+}
+
+#user-win-dialog[open],
+#robot-win-dialog[open] {
+    display: flex;
+    flex-direction: column;
 }
 
 #user-name-input-container {
@@ -137,8 +145,12 @@ footer {
     background-color: blue;
 }
 
+.ship {
+    border: 1px solid red; 
+}
+
 .ship-placed {
-    background-color: black;
+    background-color: pink;
 }
 
 .ship-hit {

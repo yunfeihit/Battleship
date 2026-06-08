@@ -6,6 +6,7 @@ class Cell {
         this.isHit = false;
         //'coord' to recode the [x, y] coordinate
         this.coord = null;
+        this.shipImgSrc = null;
     }
 }
 
@@ -14,6 +15,7 @@ class GameBoard {
         this.size = size;
 
         //create the board, a 2D array store 'Cell' object
+        //create all 'columns' first! REMEMBER THAT
         this.board = [];
         for(let i = 0; i < size; i++) {
             this.board.push([]);
@@ -66,7 +68,7 @@ class GameBoard {
         }
     }
 
-    placeShip(startPosition, length, direction = 'x') {
+    placeShip(startPosition, length, direction = 'x', src) {
         const newShip = new Ship(startPosition, length, direction);
         const coordsTaken = newShip.place();
         
@@ -86,6 +88,7 @@ class GameBoard {
             const [x, y] = item;
             //all taken cells point to the new ship object
             this.board[x][y].ship = newShip;
+            this.board[x][y].shipImgSrc = src;
         });
 
         console.log('ship is palced')
