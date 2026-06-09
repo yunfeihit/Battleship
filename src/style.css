@@ -3,12 +3,29 @@
     src: url(./fonts/Honk-Regular-VariableFont_MORF\,SHLN.ttf) format("truetype");
 }
 
+@font-face {
+    font-family: "Jersey";
+    src: url(./fonts/Jersey15-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Quantico";
+    src: url(./fonts/Jersey15-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Orbitron";
+    src: url(./fonts/Orbitron-Regular.ttf) format("truetype");
+}
+
 * {
     padding: 0;
     margin: 0;
     font-family: Helvetica, sans-serif;
     box-sizing: border-box;
     overflow: hidden;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 100;
 }
 
 html,
@@ -19,6 +36,28 @@ body {
 .hidden {
     display: none !important;
 }
+
+button {
+    cursor: pointer;
+    transition: transform 0.1s ease,
+                box-shadow 0.1s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)
+}
+
+/* overall definition */
+
+
+
+
 
 /* main structure */
 body {
@@ -44,8 +83,11 @@ main {
 }
 
 footer {
-    height: 60px;
+    height: 40px;
     background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #title {
@@ -55,14 +97,8 @@ footer {
     border: 1px solid white;
 }
 
-/* Page 2: */
-#page-2 {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
+
+
 
 /* user name input dialog */
 #user-name-input-dialog,
@@ -74,7 +110,33 @@ footer {
     transform: translate(-50%, -50%);
     border: 1px solid white;
     width: 180px;
-    height: 40px;
+}
+
+#user-name-input-dialog {
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+#user-name-input-form {
+    height: 100%;
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+#user-name-input {
+    padding: 4px;
+    border-radius: 4px;
+    width: 100%;
+    height: 24px;
+}
+
+#input-name-btn {
+    height: 24px;
+    padding: 4px;
 }
 
 #user-win-dialog[open],
@@ -83,27 +145,83 @@ footer {
     flex-direction: column;
 }
 
-#user-name-input-container {
+
+/* PAGE: Place Ships Page */
+#page-place-ships {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+#place-ship-page-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    border: 1px solid black;
+    gap: 24px;
+}
+
+#ships-container {
+    display: flex;
+    flex-direction: column;
+    height: 270px;
+    width: 270px;
+}
+
+img {
+    flex: 1;
+}
+
+#play-battle-btn {
+    padding: 10px 12px;
+    font-size: 18px;
+}
+
+
+
+/* indicator */
+#indicator-container {
+    height: 48px;
+    width: 800px;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid red;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+#place-ships-indicator,
+#battle-indicator {
+    font-size: 24px;
+    font-weight: bold;
+    overflow: hidden;
+    margin-left: 8px;
+}
+
+#user-gameboard-wrapper,
+#robot-gameboard-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* indicator */
-#indicator-container {
-    height: 48px;
-    width: 400px;
-    background-color: green;
-    padding: 28px 0;
+#user-gameboard-title,
+#robot-gameboard-title {
+    padding: 4px 0;
+    font-size: 24px;
 }
-
 
 /* gameboard container */
 #gameboards-container {
     height: 400px;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 150px;
     align-items: center;
     border: 1px solid red;
 }
@@ -117,6 +235,7 @@ footer {
     background-color: grey;
     display: flex;
     flex-direction: column;
+    border: 1px solid black;
 }
 
 /* gameboard cell */
@@ -150,7 +269,7 @@ footer {
 }
 
 .ship-placed {
-    background-color: pink;
+    background-color: grey;
 }
 
 .ship-hit {
@@ -160,24 +279,6 @@ footer {
 .miss-hit {
     background-color: yellow;
 }
-
-/* Page: place ships */
-#page-place-ships {
-    display: flex;
-    justify-content: space-around;
-    height: 100%;
-}
-
-#ships-container {
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-}
-
-img {
-    flex: 1;
-}
-
 
 
 

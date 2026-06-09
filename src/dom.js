@@ -1,5 +1,6 @@
 const userNameInput = document.querySelector('#user-name-input');
 const inputNameBtn = document.querySelector('#input-name-btn');
+const userNameInputForm = document.querySelector('#user-name-input-form');
 const gameboardsContainer = document.querySelector('#gameboards-container');
 const placeShipsGameBoardContainer = document.querySelector('#place-ships-gameboard-container');
 const userGameBoardContainer = document.querySelector('#user-gameboard-container');
@@ -12,6 +13,8 @@ const loadPlayBattlePageBtn = document.querySelector('#play-battle-btn');
 const userWinDialog = document.querySelector('#user-win-dialog');
 const robotWinDialog = document.querySelector('#robot-win-dialog');
 const playAgainBtn = document.querySelector('#play-again-btn');
+const placeShipsIndicator = document.querySelector('#place-ships-indicator');
+const placeShipIndicatorContainer = document.querySelector('#indicator-container')
 
 //Inner Function
 function renderGameBoard(gameBoard, container) {
@@ -91,11 +94,11 @@ function bindRobotGameBoardClick(handler) {
 }
 
 function bindCreateUser(handler) {
-    inputNameBtn.addEventListener('click', () => {
+    userNameInputForm.addEventListener('submit', (event) => {
+        event.preventDefault();
         return handler(userNameInput.value);
     })
 }
-
 
 function showUserNameInputDialog() {
     userNameInputDialog.showModal();
@@ -114,6 +117,8 @@ function loadPlaceShipsPage(userGameBoard) {
     });
     //remove 'hidden' from placshipspage
     placeShipsPage.classList.remove('hidden');
+
+    autoChangeColor(placeShipIndicatorContainer, 'borderColor')
 
     //render userGameBoard here
     renderGameBoard(userGameBoard, placeShipsGameBoardContainer);
@@ -224,7 +229,47 @@ function clooseAllDialogs() {
     })
 }
 
-export{
+function renderPlaceShipsPageIndicator(name) {
+    const message = `HELLO ${name.toUpperCase()}!  PLACE YOUR SHIPS HERE!`;
+    placeShipsIndicator.innerHTML = '';
+    showTextContentByCharacter(placeShipsIndicator, message);
+}
+
+//'message' must be string
+function placeShipIndicatorShowMessage(message) {
+    if(typeof message !== 'string') {
+        console.log('message must be a string!');
+        return;
+    }
+
+    placeShipsIndicator.innerHTML = '';
+    showTextContentByCharacter(placeShipsIndicator, message);
+}
+
+function showTextContentByCharacter(container, message) {
+    let index = 0;
+    const intervalId = setInterval(() => {
+        container.textContent += message[index];
+        index++;
+
+        if(index === message.length) clearInterval(intervalId);
+    }, 50)
+}
+
+function autoChangeColor(element, item) {
+    setInterval(() => {
+        const randomColor = `rgb(
+            ${Math.floor(Math.random() * 256)},
+            ${Math.floor(Math.random() * 256)},
+            ${Math.floor(Math.random() * 256)}
+        )`
+
+        element.style[item] = randomColor;
+    }, 200)
+}
+
+
+export const dom = {
     renderUserGameBoard, 
     renderRobotGameBoard,
     renderPlaceShipsGameBoard,
@@ -241,5 +286,9 @@ export{
     renderAllShipsOnPlaceShipsGameBoard,
     bindLoadPlayBattlePage,
     bindPlayAgainBtn,
-    clooseAllDialogs
+    clooseAllDialogs,
+    renderPlaceShipsPageIndicator,
+    showTextContentByCharacter,
+    autoChangeColor,
+    placeShipIndicatorShowMessage
 };

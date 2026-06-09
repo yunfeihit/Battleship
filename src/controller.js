@@ -1,26 +1,7 @@
 import {Ship} from "./Ship.js";
 import {GameBoard} from "./GameBoard.js";
 import {createPlayer} from "./Player.js";
-import {
-    renderUserGameBoard, 
-    renderRobotGameBoard,
-    renderPlaceShipsGameBoard,
-    renderUserWin,
-    renderRobotWin, 
-    bindRobotGameBoardClick,
-    bindCreateUser,
-    bindUserPlaceShip,
-    showUserNameInputDialog,
-    closeUserNameInputDialog,
-    loadPlaceShipsPage,
-    loadPlayBattlePage,
-    bindShipDrag,
-    renderAllShipsOnPlaceShipsGameBoard,
-    bindLoadPlayBattlePage,
-    bindPlayAgainBtn,
-    clooseAllDialogs
-    }
-from "./dom.js";
+import {dom} from "./dom.js";
 
 //workflow: (multiple actions)
 function handleCreateUser(name) {
@@ -31,22 +12,24 @@ function handleCreateUser(name) {
 
     //create user
     user = createPlayer(name);
-    closeUserNameInputDialog();
+    dom.closeUserNameInputDialog();
 
     //load next page:
-    loadPlaceShipsPage(user.gameBoard);
+    dom.loadPlaceShipsPage(user.gameBoard);
+
+    dom.renderPlaceShipsPageIndicator(name);
 
     return name;
 }
 
 function reCreateUser(name) {
-        //create user
-        user = createPlayer(name);
-        closeUserNameInputDialog();
-    
-        //load next page:
-        loadPlaceShipsPage(user.gameBoard);
-        console.log(`user name still be:${name}`);
+    //create user
+    user = createPlayer(name);
+    dom.closeUserNameInputDialog();
+
+    //load next page:
+    dom.loadPlaceShipsPage(user.gameBoard);
+    console.log(`user name still be:${name}`);
 }
 
 function handleUserAttack(coord) {
@@ -56,9 +39,9 @@ function handleUserAttack(coord) {
     if(!successAttack) return;
 
     //re render the robot gameboardbindUserPlaceShip
-    renderRobotGameBoard(robot.gameBoard);
+    dom.renderRobotGameBoard(robot.gameBoard);
     if(robot.gameBoard.isGameOver()) {
-        renderUserWin();
+        dom.renderUserWin();
     }
 
     //after user make a hit, automatically let robot make a hit
@@ -68,9 +51,9 @@ function handleUserAttack(coord) {
     if(randomUnhitCoord === null) return;
 
     user.gameBoard.receiveAttack(randomUnhitCoord);
-    renderUserGameBoard(user.gameBoard);
+    dom.renderUserGameBoard(user.gameBoard);
     if(user.gameBoard.isGameOver()) {
-        renderRobotWin();
+        dom.renderRobotWin();
     }
 }
 
@@ -83,22 +66,28 @@ function handleUserPlaceShip(startPosition, length, direction, src) {
 
     //DOM layer:
     //render user's gameboard
-    renderPlaceShipsGameBoard(user.gameBoard);
-    renderAllShipsOnPlaceShipsGameBoard(user.gameBoard)
+    dom.renderPlaceShipsGameBoard(user.gameBoard);
+    dom.renderAllShipsOnPlaceShipsGameBoard(user.gameBoard)
 
     //then robot place a ship in robot's gameboard automatically
     robot.gameBoard.placeShipRandom(length);
 
-    renderRobotGameBoard(robot.gameBoard);
+    dom.renderRobotGameBoard(robot.gameBoard);
 }
 
 function handleLoadPlayBattlePage() {
-    loadPlayBattlePage(user.gameBoard, robot.gameBoard)
+    if(user.gameBoard.hasShipPlaced() === false) {
+        const message = 'AT LEAST ONE SHIP MUST BE PLACED';
+        dom.placeShipIndicatorShowMessage(message);
+        return;
+    }
+
+    dom.loadPlayBattlePage(user.gameBoard, robot.gameBoard)
 }
 
 function handlePlayAgain() {
     robot = createPlayer('Robot');
-    clooseAllDialogs();
+    dom.clooseAllDialogs();
     reCreateUser(userName);
 }
 
@@ -108,15 +97,12 @@ let userName;
 
 //MAIN FUNCTION
 function startGame() {
-    showUserNameInputDialog();
-    bindCreateUser(handleCreateUser);//user is created here
-    bindUserPlaceShip(handleUserPlaceShip);
-    bindLoadPlayBattlePage(handleLoadPlayBattlePage);
-    bindRobotGameBoardClick(handleUserAttack);
-    bindPlayAgainBtn(handlePlayAgain);
+    dom.showUserNameInputDialog();
+    dom.bindCreateUser(handleCreateUser);//user is created here
+    dom.bindUserPlaceShip(handleUserPlaceShip);
+    dom.bindLoadPlayBattlePage(handleLoadPlayBattlePage);
+    dom.bindRobotGameBoardClick(handleUserAttack);
+    dom.bindPlayAgainBtn(handlePlayAgain);
 }
-
-
-
 
 export {startGame};

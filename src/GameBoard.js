@@ -213,6 +213,10 @@ class GameBoard {
             placeShipInY();
         }
     }
+
+    hasShipPlaced() {
+        return this.board.flat().some(item => item.ship !== null)
+    }
 }
 
 

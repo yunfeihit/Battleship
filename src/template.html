@@ -16,34 +16,40 @@
 
         <!-- Dialog: user name input -->
         <dialog id="user-name-input-dialog">
-            <div id="user-name-input-container">
-                <input type="text" id="user-name-input">
-                <button id="input-name-btn">Input Your Name:</button>
-            </div>
+                <form id="user-name-input-form">
+                    <input type="text" id="user-name-input" required>
+                    <button id="input-name-btn" type="submit">Your Name:</button>
+                </form>
         </dialog>
 
 
 
         <!-- Page-1: place ships-->
         <section id="page-place-ships" class="page hidden">
-            <div id="place-ships-gameboard-container">
+            <div id="indicator-container">
+                <p id="place-ships-indicator">Indicator:</p>
             </div>
-            <div id="ships-container">
-                <img class='ship' draggable="true" src="./imgs/carrier.svg" alt="carrier" data-length="5">
-                <img class='ship' draggable="true" src="./imgs/destroyer.svg" alt="destroyer" data-length="3">
-                <img class='ship' draggable="true" src="./imgs/patrol.svg" alt="patrol" data-length="2">
-                <img class='ship' draggable="true" src="./imgs/submarine.svg" alt="submarine" data-length="4">
-            </div>
-            <div>
-                <button id="play-battle-btn">Play Battle!</button>
-            </div>
+
+            <div id="place-ship-page-content">
+                <div id="place-ships-gameboard-container">
+                </div>
+                <div>
+                    <button id="play-battle-btn">Play Battle!</button>
+                </div>
+                <div id="ships-container">
+                    <img class='ship' draggable="true" src="./imgs/carrier.svg" alt="carrier" data-length="5">
+                    <img class='ship' draggable="true" src="./imgs/destroyer.svg" alt="destroyer" data-length="3">
+                    <img class='ship' draggable="true" src="./imgs/patrol.svg" alt="patrol" data-length="2">
+                    <img class='ship' draggable="true" src="./imgs/submarine.svg" alt="submarine" data-length="4">
+                </div>
+            </div>            
         </section>
 
 
         <!-- Page 2: play a battle-->
         <section id="page-play-battle"  class="page hidden">
             <div id="indicator-container">
-                <p>Indicator:</p>
+                <p id="battle-indicator">Indicator:</p>
             </div>
             
             <div id="gameboards-container">
@@ -75,9 +81,6 @@
 
     <footer>
         <p>made by Tyler Wang</p>
-
-
-
     </footer>
 
 
