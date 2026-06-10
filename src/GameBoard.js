@@ -102,13 +102,18 @@ class GameBoard {
         //if this coord is already hit, do nothing and return false
         if(hitCell.isHit === true) return false;
 
+        //return 1 if hit a ship, return 2 if miss
+        let hitResult = null;
+
         hitCell.isHit = true;
+        hitResult = 2;
 
         if(hitCell.ship !== null)  {
             const hitShip = hitCell.ship;
             hitShip.getHit();
+            hitResult = 1;
         }
-        return true;
+        return hitResult;
     }
 
     isGameOver() {

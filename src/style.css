@@ -61,29 +61,27 @@ button:active {
 
 /* main structure */
 body {
-    border: 1px solid white;
     display: flex;
     flex-direction: column;
     background-color: black;
 }
 
 header {
-    height: clamp(200px, 20%, 400px);
+    height: clamp(160px, 16%, 320px);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid white;
 }
 
 main {
     flex: 1;
     min-height: 0;
-    background-color: grey;
+    background-color: rgb(185, 185, 185);
     overflow: hidden;
 }
 
 footer {
-    height: 40px;
+    height: 50px;
     background: white;
     display: flex;
     flex-direction: column;
@@ -94,7 +92,6 @@ footer {
     font-family: 'Honk', sans-serif;
     color: white;
     font-size: 6rem;
-    border: 1px solid white;
 }
 
 
@@ -108,7 +105,7 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid white;
+    border: 1px solid grey;
     width: 180px;
 }
 
@@ -141,9 +138,26 @@ footer {
 
 #user-win-dialog[open],
 #robot-win-dialog[open] {
+    height: 120px;
+    border-radius: 5px;
+    width: 170px;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
+
+#you-win,
+#you-lose {
+    font-size: 24px;
+}
+
+#win-play-again-btn,
+#lose-play-again-btn {
+    padding: 5px 8px;
+}
+
+
 
 
 /* PAGE: Place Ships Page */
@@ -158,9 +172,8 @@ footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 100%;
-    border: 1px solid black;
-    gap: 24px;
+    height: 80%;
+    gap: 48px;
 }
 
 #ships-container {
@@ -170,7 +183,11 @@ footer {
     width: 270px;
 }
 
-img {
+.ship-placed {
+    background-color: rgba(0, 119, 190, 0.8);
+}
+
+#ships-container > img {
     flex: 1;
 }
 
@@ -179,19 +196,19 @@ img {
     font-size: 18px;
 }
 
-
-
 /* indicator */
-#indicator-container {
+#indicator-container,
+#indicator-container-2 {
     height: 48px;
     width: 800px;
-    background-color: green;
+    background-color: rgb(131, 217, 131);
     display: flex;
     flex-direction: column;
     justify-content: center;
     border: 2px solid red;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    box-shadow: 0 0 4px red;
+    margin-top: 36px;
+    margin-bottom: 36px;
 }
 
 #place-ships-indicator,
@@ -201,6 +218,16 @@ img {
     overflow: hidden;
     margin-left: 8px;
 }
+
+
+/* PAGE: battle page */
+
+#page-play-battle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 #user-gameboard-wrapper,
 #robot-gameboard-wrapper {
@@ -212,6 +239,7 @@ img {
 #user-gameboard-title,
 #robot-gameboard-title {
     padding: 4px 0;
+    margin-bottom: 4px;
     font-size: 24px;
 }
 
@@ -223,7 +251,6 @@ img {
     justify-content: center;
     gap: 150px;
     align-items: center;
-    border: 1px solid red;
 }
 
 #user-gameboard-container,
@@ -241,7 +268,7 @@ img {
 /* gameboard cell */
 .gameboard-row {
     flex: 1;
-    border: 1px dotted blue;
+    /* border: 1px dotted blue; */
     display: flex;
 }
 
@@ -258,30 +285,31 @@ img {
     left: 0;
     pointer-events: none;
     z-index: 10;
+    display: block;
+    max-width: none;
+    object-fit: fill;
+    object-position: center;
 }
 
-.empty {
-    background-color: blue;
-}
-
-.ship {
-    border: 1px solid red; 
-}
-
-.ship-placed {
-    background-color: grey;
-}
-
+.empty,
 .ship-hit {
-    background-color: red;
-}
-
-.miss-hit {
-    background-color: yellow;
+    background-color: rgba(0, 119, 190, 0.8);
 }
 
 
+.hit-img {
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+}
 
+.miss-img {
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+    background-color: rgba(0, 119, 190, 0.8);
+
+}
 
 
 /* footer */

@@ -1,3 +1,6 @@
+import hitImg from "./imgs/dot-hit-red.png";
+import missImg from "./imgs/dot-miss.png";
+
 const userNameInput = document.querySelector('#user-name-input');
 const inputNameBtn = document.querySelector('#input-name-btn');
 const userNameInputForm = document.querySelector('#user-name-input-form');
@@ -12,9 +15,14 @@ const playBattlePage = document.querySelector('#page-play-battle');
 const loadPlayBattlePageBtn = document.querySelector('#play-battle-btn');
 const userWinDialog = document.querySelector('#user-win-dialog');
 const robotWinDialog = document.querySelector('#robot-win-dialog');
-const playAgainBtn = document.querySelector('#play-again-btn');
+const winPlayAgainBtn = document.querySelector('#win-play-again-btn');
+const losePlayAgainBtn = document.querySelector('#lose-play-again-btn');
 const placeShipsIndicator = document.querySelector('#place-ships-indicator');
-const placeShipIndicatorContainer = document.querySelector('#indicator-container')
+const battleIndicator = document.querySelector('#battle-indicator');
+const placeShipIndicatorContainer = document.querySelector('#indicator-container');
+const placeShipIndicatorContainer2 = document.querySelector('#indicator-container-2')
+
+//#region render gameboard
 
 //Inner Function
 function renderGameBoard(gameBoard, container) {
@@ -50,34 +58,68 @@ function renderGameBoard(gameBoard, container) {
     }
 }
 
+//Inner Function
+function renderAllHits(container) {
+    const allEffectiveHits = container.querySelectorAll('.ship-hit');
+    const allMissedHits = container.querySelectorAll('.miss-hit');
+
+    allEffectiveHits.forEach(cell => {
+        const img = document.createElement('img');
+        img.src = hitImg;
+
+        //avoid multipule render
+        if(cell.querySelector('.hit-img')) return;
+
+        img.classList.add('hit-img');
+        cell.appendChild(img);
+    });
+
+    allMissedHits.forEach(cell => {
+        const img = document.createElement('img');
+        img.src = missImg;
+
+        //avoid multipule render
+        if(cell.querySelector('.miss-img')) return;
+
+        img.classList.add('miss-img');
+        cell.appendChild(img);
+    })
+}
+
 function renderUserGameBoard(userGameBoard) {
-    renderGameBoard(userGameBoard, userGameBoardContainer)
+    renderGameBoard(userGameBoard, userGameBoardContainer);
+    renderAllShipsOnUserGameBoard(userGameBoard);
+    renderAllHits(userGameBoardContainer);
 }
 
 function renderRobotGameBoard(robotGameBoard) {
-    renderGameBoard(robotGameBoard, robotGameBoardContainer)
+    renderGameBoard(robotGameBoard, robotGameBoardContainer);
+    renderAllHits(robotGameBoardContainer);
 }
 
 function renderPlaceShipsGameBoard(placeGameBoard) {
     renderGameBoard(placeGameBoard, placeShipsGameBoardContainer)
 }
+//#endregion
+
 
 function renderUserWin() {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.add('hidden');
+    setTimeout(() => {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.add('hidden');      
+        });
 
-
-    });
-
-    userWinDialog.showModal();
+        userWinDialog.showModal();
+    }, 500)
 }
 
 function renderRobotWin() {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.add('hidden');
-    });
-
-    robotWinDialog.showModal();
+    setTimeout(() => {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.add('hidden');
+        });
+        robotWinDialog.showModal();
+    }, 500)
 }
 
 function bindRobotGameBoardClick(handler) {
@@ -118,7 +160,7 @@ function loadPlaceShipsPage(userGameBoard) {
     //remove 'hidden' from placshipspage
     placeShipsPage.classList.remove('hidden');
 
-    autoChangeColor(placeShipIndicatorContainer, 'borderColor')
+    autoChangeBorderAndBoxShadowColor(placeShipIndicatorContainer);
 
     //render userGameBoard here
     renderGameBoard(userGameBoard, placeShipsGameBoardContainer);
@@ -135,6 +177,9 @@ function loadPlayBattlePage(userGameBoard, robotGameBoard) {
 
     renderUserGameBoard(userGameBoard);
     renderRobotGameBoard(robotGameBoard);
+    renderBattlePageIndicator();
+    autoChangeBorderAndBoxShadowColor(placeShipIndicatorContainer2);
+
 }
 
 function bindShipDrag() {
@@ -214,12 +259,17 @@ function renderAllShipsOnPlaceShipsGameBoard(userGameBoard) {
     renderAllShipsOnGameBoard(placeShipsGameBoardContainer, userGameBoard)
 }
 
+function renderAllShipsOnUserGameBoard(userGameBoard) {
+    renderAllShipsOnGameBoard(userGameBoardContainer, userGameBoard)
+}
+
 function bindLoadPlayBattlePage(handler) {
     loadPlayBattlePageBtn.addEventListener('click', handler)
 }
 
 function bindPlayAgainBtn(handler) {
-    playAgainBtn.addEventListener('click', handler)
+    winPlayAgainBtn.addEventListener('click', handler);
+    losePlayAgainBtn.addEventListener('click', handler);
 }
 
 function clooseAllDialogs() {
@@ -229,10 +279,13 @@ function clooseAllDialogs() {
     })
 }
 
+//#region Place Ship Indicator
+
+let placeShipIndicatorInterval;
+
 function renderPlaceShipsPageIndicator(name) {
     const message = `HELLO ${name.toUpperCase()}!  PLACE YOUR SHIPS HERE!`;
-    placeShipsIndicator.innerHTML = '';
-    showTextContentByCharacter(placeShipsIndicator, message);
+    showTextContentByCharacterInPlaceShipsPageIndicator(placeShipsIndicator, message);
 }
 
 //'message' must be string
@@ -242,21 +295,56 @@ function placeShipIndicatorShowMessage(message) {
         return;
     }
 
-    placeShipsIndicator.innerHTML = '';
-    showTextContentByCharacter(placeShipsIndicator, message);
+    showTextContentByCharacterInPlaceShipsPageIndicator(placeShipsIndicator, message);
 }
 
-function showTextContentByCharacter(container, message) {
+function showTextContentByCharacterInPlaceShipsPageIndicator(container, message) {
+    clearInterval(placeShipIndicatorInterval);
+    container.innerHTML = '';
+
     let index = 0;
-    const intervalId = setInterval(() => {
+    placeShipIndicatorInterval = setInterval(() => {
         container.textContent += message[index];
         index++;
 
-        if(index === message.length) clearInterval(intervalId);
-    }, 50)
+        if(index === message.length) clearInterval(placeShipIndicatorInterval);
+    }, 15)
 }
 
-function autoChangeColor(element, item) {
+//#endregion
+
+let playBattleInterval;
+
+//Inner Function
+function showTextContentByCharacterInBattlePageIndicator(container, message) {
+    clearInterval(playBattleInterval);
+    container.innerHTML = '';
+
+    let index = 0;
+    playBattleInterval = setInterval(() => {
+        container.textContent += message[index];
+        index++;
+
+        if(index === message.length) clearInterval(playBattleInterval);
+    }, 15)
+}
+
+function renderBattlePageIndicator() {
+    const message = 'HIT THE BOARD!';
+    showTextContentByCharacterInBattlePageIndicator(battleIndicator, message);
+}
+
+function indicatorShowAffectiveHit() {
+    const message = 'IT\'S A HIT!';
+    showTextContentByCharacterInBattlePageIndicator(battleIndicator, message);
+}
+
+function indicatorShowMissHit() {
+    const message = 'YOU MISS!';
+    showTextContentByCharacterInBattlePageIndicator(battleIndicator, message);
+}
+
+function autoChangeBorderAndBoxShadowColor(element) {
     setInterval(() => {
         const randomColor = `rgb(
             ${Math.floor(Math.random() * 256)},
@@ -264,10 +352,10 @@ function autoChangeColor(element, item) {
             ${Math.floor(Math.random() * 256)}
         )`
 
-        element.style[item] = randomColor;
-    }, 200)
+        element.style.borderColor = randomColor;
+        element.style.boxShadow = `0 0 8px ${randomColor}`;
+    }, 400)
 }
-
 
 export const dom = {
     renderUserGameBoard, 
@@ -288,7 +376,8 @@ export const dom = {
     bindPlayAgainBtn,
     clooseAllDialogs,
     renderPlaceShipsPageIndicator,
-    showTextContentByCharacter,
-    autoChangeColor,
-    placeShipIndicatorShowMessage
+    placeShipIndicatorShowMessage,
+    renderAllShipsOnUserGameBoard,
+    indicatorShowAffectiveHit,
+    indicatorShowMissHit
 };

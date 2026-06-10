@@ -29,14 +29,18 @@ function reCreateUser(name) {
 
     //load next page:
     dom.loadPlaceShipsPage(user.gameBoard);
-    console.log(`user name still be:${name}`);
+    dom.renderPlaceShipsPageIndicator(name);
 }
 
 function handleUserAttack(coord) {
     //make a attack
-    const successAttack = robot.gameBoard.receiveAttack(coord);
+    const attackResult = robot.gameBoard.receiveAttack(coord);
     //Edge Case: if not hit on a Unhit cell, do nothing but return
-    if(!successAttack) return;
+    if(!attackResult) return;
+
+    if(attackResult === 1) dom.indicatorShowAffectiveHit();
+
+    if(attackResult === 2) dom.indicatorShowMissHit();
 
     //re render the robot gameboardbindUserPlaceShip
     dom.renderRobotGameBoard(robot.gameBoard);
@@ -82,7 +86,7 @@ function handleLoadPlayBattlePage() {
         return;
     }
 
-    dom.loadPlayBattlePage(user.gameBoard, robot.gameBoard)
+    dom.loadPlayBattlePage(user.gameBoard, robot.gameBoard);
 }
 
 function handlePlayAgain() {
@@ -94,6 +98,7 @@ function handlePlayAgain() {
 let user;
 let robot = createPlayer('Robot');
 let userName;
+let battleIndicatorInterval;
 
 //MAIN FUNCTION
 function startGame() {
