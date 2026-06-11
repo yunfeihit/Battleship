@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Ship</title>
+    <link rel="icon" href="20804f479e4a7fcd67ca.png">
+<script defer src="main.js"></script></head>
+<body>
+    <header>
+        <p id="title">BATTLE SHIP</p>
+
+    </header>
+
+    <main>
+
+        <!-- Dialog: user name input -->
+        <dialog id="user-name-input-dialog">
+                <form id="user-name-input-form">
+                    <input type="text" id="user-name-input" required>
+                    <button id="input-name-btn" type="submit">Your Name:</button>
+                </form>
+        </dialog>
+
+
+
+        <!-- Page-1: place ships-->
+        <section id="page-place-ships" class="page hidden">
+            <div id="indicator-container">
+                <p id="place-ships-indicator">Indicator:</p>
+            </div>
+
+            <div id="place-ship-page-content">
+                <div id="place-ships-gameboard-container">
+                </div>
+                <div>
+                    <button id="play-battle-btn">Play Battle!</button>
+                </div>
+                <div id="ships-container">
+                    <img class='ship' draggable="true" src="69be4df16a9a79625ec9.svg" alt="carrier" data-length="5">
+                    <img class='ship' draggable="true" src="d3e87b67a091a7b85628.svg" alt="destroyer" data-length="3">
+                    <img class='ship' draggable="true" src="5050c3ee4e2425de07ce.svg" alt="patrol" data-length="2">
+                    <img class='ship' draggable="true" src="71ee6bde3829e4d27560.svg" alt="submarine" data-length="4">
+                </div>
+            </div>            
+        </section>
+
+
+        <!-- Page 2: play a battle-->
+        <section id="page-play-battle"  class="page hidden">
+            <div id="indicator-container-2">
+                <p id="battle-indicator">Indicator:</p>
+            </div>
+            
+            <div id="gameboards-container">
+                <div id="user-gameboard-wrapper">
+                    <p id="user-gameboard-title">User GameBoard:</p>
+                    <div id="user-gameboard-container" ></div>
+                </div>
+
+                <div id="robot-gameboard-wrapper">
+                    <p id="robot-gameboard-title">Robot GameBoard:</p>
+                    <div id="robot-gameboard-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dialog: User Win -->
+        <dialog id="user-win-dialog">
+            <p id="you-win">You Win!</p>
+            <button id="win-play-again-btn">Play Again</button>
+        </dialog>
+
+        <!-- Dialog: User Loose -->
+        <dialog id="robot-win-dialog">
+            <p id="you-lose">You Lose!</p>
+            <button id="lose-play-again-btn">Play Again</button>
+        </dialog>
+
+    </main>
+
+    <footer>
+        <p>made by Tyler Wang</p>
+    </footer>
+
+
+    
+
+
+
+</body>
+</html>
